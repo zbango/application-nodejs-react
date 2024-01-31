@@ -1,11 +1,13 @@
 require('dotenv').config()
 const express = require("express")
 const bodyParser = require("body-parser")
+const cors = require("cors")
 const { writeFile } = require('node:fs/promises');
 const { readFile } = require('node:fs/promises');
 const { resolve } = require('node:path');
 
 const app = express();
+app.use(cors())
 app.use(bodyParser.json())
 
 const PORT = process.env.PORT
@@ -18,7 +20,7 @@ app.post("/users", async (req, res) => {
     try {
 
         const { email, password, firstName, lastName } = req.body;
-        if(!email || !password){
+        if(!email || !password) {
             return res.status(400).send(`email and password are missing`);
         }
         const filePath = resolve('./users.json');
